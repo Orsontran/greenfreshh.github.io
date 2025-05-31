@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Cửa hàng đồ ăn healthy, đồ ăn sạch, dinh dưỡng và ngon miệng." />
+  <title>HealthyFood - Đồ ăn healthy ngon, sạch, dinh dưỡng</title>
+  <style>
+    /* Reset cơ bản */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f9fdf7;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #1b5e20;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      color: #a5d6a7;
+    }
+    main {
+      flex: 1;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #1b5e20;
+      margin-bottom: 15px;
+      border-bottom: 3px solid #a5d6a7;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    .food-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .food-item {
+      width: 260px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #f0f8f3;
+      box-shadow: 0 0 6px rgb(0 0 0 / 0.05);
+      transition: transform 0.3s;
+    }
+    .food-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgb(0 0 0 / 0.15);
+    }
+    .food-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      transition: opacity 1s ease-in;
+      opacity: 0;
+    }
+    .food-item img.loaded {
+      opacity: 1;
+    }
+    .food-item h3 {
+      padding: 10px 15px 0;
+      font-size: 1.1rem;
+      color: #2e7d32;
+    }
+    .food-item p {
+      padding: 0 15px 15px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgb(0 0 0 / 0.1);
+    }
+    form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1.5px solid #a5d6a7;
+      border-radius: 5px;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      border-color: #388e3c;
+      outline: none;
+    }
+    button {
+      display: block;
+      width: 100%;
+      background-color: #1b5e20;
+      color: white;
+      font-size: 1.1rem;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .message {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    footer {
+      background: #1b5e20;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .food-list {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HealthyFood</h1>
+    <nav>
+      <ul>
+        <li><a href="#home" class="active" data-target="home">Trang Chủ</a></li>
+        <li><a href="#about" data-target="about">Giới Thiệu</a></li>
+        <li><a href="#menu" data-target="menu">Thực Đơn</a></li>
+        <li><a href="#order" data-target="order">Đặt Hàng</a></li>
+        <li><a href="#contact" data-target="contact">Liên Hệ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Trang Chủ -->
+    <section id="home" class="content active">
+      <h2>Chào mừng đến HealthyFood</h2>
+      <p>Chúng tôi cung cấp những món ăn healthy, sạch và đầy dinh dưỡng để bạn có một cuộc sống khỏe mạnh hơn.</p>
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Món ăn healthy" style="width:100%; max-height:400px; object-fit:cover; border-radius: 8px; margin-top: 20px;">
+    </section>
+
+    <!-- Giới Thiệu -->
+    <section id="about" class="content" style="display:none;">
+      <h2>Giới Thiệu</h2>
+      <p>HealthyFood là cửa hàng chuyên cung cấp đồ ăn lành mạnh, giúp bạn duy trì một lối sống khỏe mạnh và năng động. Chúng tôi cam kết sử dụng nguyên liệu sạch, tươi ngon và không chất bảo quản.</p>
+      <p>Với đa dạng món ăn từ salad, smoothie, đến các món chính giàu dinh dưỡng, HealthyFood sẽ làm hài lòng khẩu vị của bạn và giữ gìn sức khỏe của bạn.</p>
+    </section>
+
+    <!-- Thực Đơn -->
+    <section id="menu" class="content" style="display:none;">
+      <h2>Thực Đơn</h2>
+      <div class="food-list">
+        <article class="food-item">
+          <img src="https://images.unsplash.com/photo-1556910103-1b0d53f5b2b5?auto=format&fit=crop&w=400&q=80" alt="Salad rau củ" />
+          <h3>Salad Rau Củ</h3>
+          <p>Salad tươi mát với cà chua, dưa leo, cà rốt và sốt chanh leo nhẹ nhàng.</p>
+        </article>
+        <article class="food-item">
+          <img src="https://images.unsplash.com/photo-1543353071-087092ec3931?auto=format&fit=crop&w=400&q=80" alt="Smoothie trái cây" />
+          <h3>Smoothie Trái Cây</h3>
+          <p>Sinh tố trái cây tự nhiên với xoài, dứa, và chuối.</p>
+        </article>
+        <article class="food-item">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" alt="Cơm gạo lứt và rau củ" />
+          <h3>Cơm Gạo Lứt</h3>
+          <p>Bữa cơm dinh dưỡng với gạo lứt, rau củ luộc và thịt gà nạc.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Đặt Hàng -->
+    <section id="order" class="content" style="display:none;">
+      <h2>Đặt Hàng</h2>
+      <form id="orderForm" novalidate>
+        <label for="fullname">Họ và tên</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên" required />
+
+        <label for="emailOrder">Email</label>
+        <input type="email" id="emailOrder" name="emailOrder" placeholder="Nhập email" required />
+
+        <label for="phone">Số điện thoại</label>
+        <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" required />
+
+        <label for="item">Món muốn đặt</label>
+        <select id="item" name="item" required>
+          <option value="">-- Chọn món --</option>
+          <option value="salad">Salad Rau Củ</option>
+          <option value="smoothie">Smoothie Trái Cây</option>
+          <option value="rice">Cơm Gạo Lứt</option>
+        </select>
+
+        <label for="quantity">Số lượng</label>
+        <input type="number" id="quantity" name="quantity" placeholder="Số lượng" min="1" value="1" required />
+
+        <button type="submit">Gửi Đơn Đặt Hàng</button>
+        <p class="message" id="orderMessage"></p>
+      </form>
+    </section>
+
+    <!-- Liên Hệ -->
+    <section id="contact" class="content" style="display:none;">
+      <h2>Liên Hệ</h2>
+      <form id="contactForm" novalidate>
+        <label for="nameContact">Họ và tên</label>
+        <input type="text" id="nameContact" name="nameContact" placeholder="Nhập họ tên" required />
+
+        <label for="emailContact">Email</label>
+        <input type="email" id="emailContact" name="emailContact" placeholder="Nhập email" required />
+
+        <label for="messageContact">Nội dung</label>
+        <textarea id="messageContact" name="messageContact" rows="5" placeholder="Viết nội dung liên hệ" required></textarea>
+
+        <button type="submit">Gửi Liên Hệ</button>
+        <p class="message" id="contactMessage"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 HealthyFood - Tận hưởng cuộc sống lành mạnh mỗi ngày
+  </footer>
+
+  <script>
+    // Chuyển tab nội dung
+    const menuLinks = document.querySelectorAll('nav ul li a');
+    const sections = document.querySelectorAll('main section.content');
+
+    function hideAllSections() {
+      sections.forEach(sec => {
+        sec.style.display = 'none';
+      });
+    }
+    function removeActiveMenu() {
+      menuLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+    }
+
+    menuLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.dataset.target;
+        hideAllSections();
+        document.getElementById(target).style.display = 'block';
+        removeActiveMenu();
+        link.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Hiệu ứng ảnh load dần
+    const images = document.querySelectorAll('.food-item img');
+    images.forEach(img => {
+      if(img.complete) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', () => {
+          img.classList.add('loaded');
+        });
+      }
+    });
+
+    // Xử lý form Đặt Hàng
+    const orderForm = document.getElementById('orderForm');
+    const orderMessage = document.getElementById('orderMessage');
+
+    orderForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const fullname = orderForm.fullname.value.trim();
+      const email = orderForm.emailOrder.value.trim();
+      const phone = orderForm.phone.value.trim();
+      const item = orderForm.item.value;
+      const quantity = orderForm.quantity.value;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!fullname || !email || !phone || !item || !quantity) {
+        orderMessage.style.color = 'red';
+        orderMessage.textContent = 'Vui lòng điền đầy đủ thông tin.';
+        return;
+      }
+      if(!emailRegex.test(email)) {
+        orderMessage.style.color = 'red';
+        orderMessage.textContent = 'Email không hợp lệ.';
+        return;
+      }
+      if(quantity < 1) {
+        orderMessage.style.color = 'red';
+        orderMessage.textContent = 'Số lượng phải lớn hơn 0.';
+        return;
+      }
+      // Giả lập gửi đơn (ở đây chỉ hiển thị tin nhắn)
+      orderMessage.style.color = 'green';
+      orderMessage.textContent = `Cảm ơn ${fullname}, đơn hàng của bạn đã được gửi!`;
+      orderForm.reset();
+    });
+
+    // Xử lý form Liên Hệ
+    const contactForm = document.getElementById('contactForm');
+    const contactMessage = document.getElementById('contactMessage');
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = contactForm.nameContact.value.trim();
+      const email = contactForm.emailContact.value.trim();
+      const message = contactForm.messageContact.value.trim();
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if(!name || !email || !message) {
+        contactMessage.style.color = 'red';
+        contactMessage.textContent = 'Vui lòng điền đầy đủ thông tin.';
+        return;
+      }
+      if(!emailRegex.test(email)) {
+        contactMessage.style.color = 'red';
+        contactMessage.textContent = 'Email không hợp lệ.';
+        return;
+      }
+
+      contactMessage.style.color = 'green';
+      contactMessage.textContent = `Cảm ơn ${name}, chúng tôi đã nhận được phản hồi của bạn!`;
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
